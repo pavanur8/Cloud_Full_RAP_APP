@@ -1,0 +1,102 @@
+@Metadata.layer: #CORE
+@UI: {
+  headerInfo: {
+                typeName: 'Travel',
+                typeNamePlural: 'Travels',
+//                title: { type: #STANDARD, label: 'Travel', value: 'TravelID' },
+                title.value: 'CustomerName',
+                description:{ value: 'TravelID' },
+//                typeImageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBUYzlzk2hV6kZn6yin0tnND7ot0u4g95NAO6mhAfS_Wl-tb56oYAAJMyc&s=10'},
+typeImageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSinn8YxS0WfjmsPC_SKotx3aRuLNkl8GVE9rJ4fYY9cA&s=10'} ,
+
+  presentationVariant: [{ sortOrder: [{ by: 'TravelID', direction:  #DESC }], visualizations: [{type: #AS_LINEITEM}] }] }
+
+
+annotate view Z_C_Travel_data with
+{
+  @UI.facet: [ { id:              'Travel',
+                 purpose:         #STANDARD,
+                 type:            #IDENTIFICATION_REFERENCE,
+                 label:           'Travel',
+                 position:        10 },
+               { id:              'Booking',
+                 purpose:         #STANDARD,
+                 type:            #LINEITEM_REFERENCE,
+                 label:           'Booking',
+                 position:        20,
+                 targetElement:   '_Booking'},
+                 { id: 'DP1', purpose: #HEADER, position: 10, type: #DATAPOINT_REFERENCE,
+               targetQualifier: 'DPT1' },
+                  { id: 'DP2', purpose: #HEADER, position: 15, type: #DATAPOINT_REFERENCE,
+               targetQualifier: 'DPT2' },
+                  { id: 'DP3', purpose: #HEADER, position: 10, type: #DATAPOINT_REFERENCE,
+               targetQualifier: 'DPT3' } ]
+
+  @UI:{ identification: [{ position: 1, label: 'Travel UUID' }] }
+  TravelUUID;
+
+  @UI: {  lineItem:       [ { position: 10 } ],
+          identification: [ { position: 10 } ],
+          selectionField: [ { position: 10 } ] }
+   
+  TravelID;
+
+  @UI: {  lineItem:       [ { position: 20 } ],
+          identification: [ { position: 20 } ],
+          selectionField: [ { position: 20 } ] }
+  @UI.dataPoint:{qualifier: 'DPT1'}
+  @Consumption.filter: {selectionType: #SINGLE, multipleSelections: false, mandatory: true}
+  AgencyID;
+
+  @UI: {  lineItem:       [ { position: 30 } ],
+          identification: [ { position: 30 } ],
+          selectionField: [ { position: 30 } ] }
+  @Consumption.filter.defaultValue: '1'
+//    @Consumption.derivation: { lookupEntity: 'I_FiscalCalendarDate',
+//        resultElement: 'FiscalPeriod',
+//        binding : [{ targetElement : 'CalendarDate' , type : #PARAMETER, value : 'P_KeyDate' } ]
+//     }
+  CustomerID;
+
+  @UI: {  lineItem:       [ { position: 40 } ],
+          identification: [ { position: 40 } ] }
+  BeginDate;
+
+  @UI: {  lineItem:       [ { position: 50 } ],
+          identification: [ { position: 50 } ] }
+  EndDate;
+
+  @UI: {  lineItem:       [ { position: 60 } ],
+          identification: [ { position: 60 } ] }
+  @UI.dataPoint:{qualifier: 'DPT2'}
+  BookingFee;
+
+  @UI: {  lineItem:       [ { position: 70 } ],
+          identification: [ { position: 70 } ] }
+  @UI.dataPoint:{qualifier: 'DPT3'}
+  TotalPrice;
+
+  @UI: {  lineItem:       [ { position: 80 } ],
+          identification: [ { position: 80 } ] }
+  Description;
+
+  @UI: {  lineItem:       [ { position: 110 }
+                         , { type: #FOR_ACTION, dataAction: 'acceptTravel', label: 'Accept Travel',invocationGrouping: #ISOLATED },
+                           { type: #FOR_ACTION, dataAction: 'rejectTravel', label: 'Reject Travel',invocationGrouping: #ISOLATED }
+                       ],
+       identification: [ { position: 110 }
+                         , { type: #FOR_ACTION, dataAction: 'acceptTravel', label: 'Accept Travel' },
+                           { type: #FOR_ACTION, dataAction: 'rejectTravel', label: 'Reject Travel' }
+                       ] }
+  TravelStatus;
+
+  @UI.hidden: true
+  LastChangedAt;
+
+  @UI.hidden: true
+  LocalLastChangedAt;
+
+  @UI.selectionField: [{ element: '_Booking.CarrierID', position: 40 }]
+  
+  _Booking;
+}

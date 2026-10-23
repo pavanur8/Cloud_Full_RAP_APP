@@ -1,0 +1,69 @@
+@Metadata.layer: #CORE
+@UI: {
+  headerInfo: { typeName: 'Booking',
+                typeNamePlural: 'Bookings',
+                 title.value: 'BookingID',
+                description:{ value: 'CustomerID' },
+//                typeImageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgfT_O-9PbpM6iFqZHtZ33WHinbRN7MG9koU0vmni19g&s=10'
+                typeImageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbU2yzW4g4MO1IZtWn-XpJvniKMdVxrBc54pLQF0DoVQ&s=10'
+              },
+              presentationVariant: [{ sortOrder: [{ by: 'BookingID', direction:  #DESC }] }] }
+
+// presentationVariant: [{
+//    qualifier: 'ItemSort',
+//    sortOrder: [{
+//        by: 'BookingID',
+//        direction: #DESC
+//    }],
+//    visualizations: [{
+//        type: #AS_LINEITEM
+//    }] }] }
+
+annotate view Z_C_Booking_data with
+{
+  @UI.facet: [ { id:            'Booking',
+                 purpose:       #STANDARD,
+                 type:          #IDENTIFICATION_REFERENCE,
+                 label:         'Booking',
+                 position:      10 },
+                 { id: 'DPP1', purpose: #HEADER, position: 10, type: #DATAPOINT_REFERENCE,
+               targetQualifier: 'DPP1' }  ]
+
+  @UI: { identification: [ { position: 10, label: 'Booking UUID'  } ] }
+  BookingUUID;
+
+  @UI.hidden: true
+  TravelUUID;
+
+  @UI: { lineItem:       [ { position: 20 } ],
+         identification: [ { position: 20 } ] }
+  BookingID;
+
+  @UI: { lineItem:       [ { position: 30 } ],
+         identification: [ { position: 30 } ] }
+  BookingDate;
+
+  @UI: { lineItem:       [ { position: 40 } ],
+         identification: [ { position: 40 } ] }
+  CustomerID;
+
+  @UI: { lineItem:       [ { position: 50 } ],
+         identification: [ { position: 50 } ] }
+  CarrierID;
+
+  @UI: { lineItem:       [ { position: 60 } ],
+         identification: [ { position: 60 } ] }
+  ConnectionID;
+
+  @UI: { lineItem:       [ { position: 70 } ],
+         identification: [ { position: 70 } ] }
+  FlightDate;
+
+  @UI: { lineItem:       [ { position: 80 } ],
+         identification: [ { position: 80 } ] }
+  @UI.dataPoint:{qualifier: 'DPP1'}
+  FlightPrice;
+
+  @UI.hidden: true
+  LocalLastChangedAt;
+}
